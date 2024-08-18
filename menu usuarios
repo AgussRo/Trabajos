@@ -1,0 +1,55 @@
+class Menu:
+    def __init__(self, agregar_usuario, buscar_usuario):
+        self.agregar_usuario = agregar_usuario
+        self.buscar_usuario = buscar_usuario
+
+    def opciones(self):
+        print("1. Agregar usuario")
+        print("2. Buscar usuario")
+
+    def ejecutar_opcion(self, opcion):
+        if opcion == '1':
+            self.agregar_usuario()
+            print("Usuario agregado correctamente")
+        elif opcion == '2':
+            self.buscar_usuario()
+        else:
+            print("Opción no válida")
+
+class Usuarios:
+    def __init__(self):
+        self.usuarios = []
+
+    def agregar_usuario(self):
+        nombre = input("Ingrese su nombre: ")
+        contrasena = self.verificar_contrasena()
+        self.usuarios.append((nombre, contrasena))
+
+    def verificar_contrasena(self):
+        contrasena = input("Ingrese su contraseña: ")
+        if len(contrasena) < 4:
+            print("Contraseña muy corta. Intente nuevamente.")
+            return self.verificar_contrasena()
+        else:
+            return contrasena
+
+    def buscar_usuario(self):
+        nombre = input("Ingrese el nombre del usuario a buscar: ")
+        for usuario in self.usuarios:
+            if usuario[0] == nombre:
+                print(f"El usuario {nombre} se encuentra registrado.")
+                return
+        print(f"El usuario {nombre} no se encuentra registrado.")
+
+class Almacen:
+    def __init__(self):
+        self.usuarios = Usuarios()
+
+    def stock(self):
+        menu = Menu(self.usuarios.agregar_usuario, self.usuarios.buscar_usuario)
+        while True:
+            menu.opciones()
+            opcion = input("Ingrese una opcion: ")
+            menu.ejecutar_opcion(opcion)
+almacen = Almacen()
+almacen.stock()
